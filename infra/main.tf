@@ -27,6 +27,6 @@ resource "docker_image" "gar_image" {
 
   build {
     context    = "infra"
-    dockerfile = "infra/Dockerfile" # file in infra/
+    dockerfile = "Dockerfile" # file in infra/
   }
 }
