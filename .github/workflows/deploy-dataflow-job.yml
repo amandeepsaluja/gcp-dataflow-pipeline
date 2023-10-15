@@ -34,18 +34,18 @@ jobs:
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init
-        working-directory: infra
+        # working-directory: infra
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         run: terraform plan
-        working-directory: infra
+        # working-directory: infra
         env:
           TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
 
       # Builds or changes infrastructure
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        working-directory: infra
+        # working-directory: infra
         env:
           TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
