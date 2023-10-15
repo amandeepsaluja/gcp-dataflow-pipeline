@@ -1,0 +1,1 @@
+gsutil ls gs://test-bucket-aman-via-terraform

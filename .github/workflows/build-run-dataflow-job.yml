@@ -32,4 +32,4 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
 
       - name: List GCS Bucket
-        run: gsutil ls gs://test-bucket-aman-via-terraform
+        run: ./scripts/build_job.sh
