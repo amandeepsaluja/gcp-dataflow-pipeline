@@ -6,8 +6,8 @@ RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 
 # copy files
-COPY src/requirements.txt .
-COPY src/my_pipeline.py .
+COPY requirements.txt .
+COPY pipeline.py .
 
 # set environment variables
 ENV FLEX_TEMPLATE_PYTHON_REQUIREMENTS_FILE="${WORKDIR}/requirements.txt"
