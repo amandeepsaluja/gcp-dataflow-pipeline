@@ -1,7 +1,6 @@
 name: GCP Authentication
 
-on:
-  workflow_call:
+on: workflow_call
 
 jobs:
   gcp-auth-and-terraform:
