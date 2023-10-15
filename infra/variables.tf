@@ -31,7 +31,7 @@ variable "docker_path" {
 variable "docker_image_name" {
   type        = string
   description = "Docker image name"
-  default     = "gar-template"
+  default     = "fpl-dataflow-template"
 }
 
 variable "docker_image_tag" {
