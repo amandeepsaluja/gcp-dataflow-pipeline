@@ -26,7 +26,7 @@ resource "docker_image" "image" {
   name = "${var.docker_address}/${var.project_id}/${var.docker_path}/${var.docker_image_name}:${var.docker_image_tag}"
 
   build {
-    context    = "${path.cwd}/infra"
+    context    = path.cwd
     dockerfile = "Dockerfile" # file in infra/
 
   }
