@@ -39,11 +39,13 @@ jobs:
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         run: terraform plan
+        working-directory: infra
         env:
           TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
 
       # Builds or changes infrastructure
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        working-directory: infra
         env:
           TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
