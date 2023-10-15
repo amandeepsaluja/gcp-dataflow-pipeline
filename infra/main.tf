@@ -11,23 +11,34 @@ provider "docker" {
   }
 }
 
+# Define the Docker build context.
+data "docker_build_context" "build_context" {
+
+  context    = "${path.module}/../src" # Set the context path to the Python directory
+  dockerfile = "${path.module}/../docker/Dockerfile"
+
+}
+
+# Build the Docker image and push it to GCR.
+resource "docker_image" "image" {
+
+  provider = docker.gcr_provider
+  name     = "${var.docker_address}/${var.project_id}/${var.docker_path}/${var.docker_image_name}:${var.docker_image_tag}"
+
+  build {
+
+    context    = data.docker_build_context.build_context.context
+    dockerfile = data.docker_build_context.build_context.dockerfile
+
+  }
+
+}
+
+
 resource "docker_registry_image" "dataflow_image" {
 
   provider      = docker.gcr_provider
   name          = docker_image.image.name
   keep_remotely = true
 
-}
-
-resource "docker_image" "image" {
-
-  provider = docker.gcr_provider
-
-  name = "${var.docker_address}/${var.project_id}/${var.docker_path}/${var.docker_image_name}:${var.docker_image_tag}"
-
-  build {
-    context    = path.cwd
-    dockerfile = "Dockerfile" # file in infra/
-
-  }
 }

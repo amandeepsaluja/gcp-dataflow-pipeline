@@ -1,0 +1,45 @@
+# Ignore common development and build files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite
+*.log
+*.bak
+*.swp
+
+# Ignore version control files and directories
+.git
+.gitignore
+.gitattributes
+.hg
+.svn
+.cvsignore
+
+# Ignore temporary and cache files
+*.tmp
+*.bak
+*.swp
+*.swx
+*.swo
+*.log
+
+# Ignore IDE-specific files and directories
+.vscode/
+.idea/
+.project
+.pydevproject
+
+# Ignore Docker-specific files
+Dockerfile
+docker-compose.yml
+
+# Ignore project-specific files or directories
+config.ini
+secrets.json
+
+# Ignore any local build artifacts
+build/
+dist/
+*.egg-info/
