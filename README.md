@@ -21,6 +21,14 @@ In this project, we will build a data pipeline using Google Cloud Platform's Dat
 
 ## Project Steps
 
-### 1. Create Apache Beam Pipeline
+### 1. Create Apache Beam Pipeline (Flex Template)
 
 In this step, we will be creating the apache beam pipeline that will be used to read data from an FPL API, perform some transformations on the data, and write the results to a BigQuery table. The pipeline will be created in the `pipeline.py` file.
+
+### 2. Setup Terraform
+
+In this step, we will be setting up Terraform to create the infrastructure needed to run the pipeline.The Terraform code will be written in the `main.tf` file.
+
+### 3. Create and Deploy Docker Image on Artifact Registry
+
+In this step, we will be creating a Docker image that will be used to run the pipeline. The Docker image will be created in the `Dockerfile` file. We will then deploy the Docker image to Artifact Registry.
