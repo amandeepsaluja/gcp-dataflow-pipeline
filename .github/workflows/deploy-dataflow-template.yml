@@ -1,15 +1,17 @@
-name: Deploy Flex Dataflow Template
+name: Build and Deploy Dataflow Flex Template
 
 on:
   push:
     branches:
       - master
-    paths-ignore:
-      - "**.md"
+    paths:
+      - infra/**
+      - docker/**
+      - src/**
 
 jobs:
   deploy-template:
-    name: Deploy Flex Dataflow Template
+    name: Dataflow Template
     runs-on: ubuntu-latest
 
     permissions:

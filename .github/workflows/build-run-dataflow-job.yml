@@ -1,0 +1,29 @@
+name: Build and Deploy Data Job
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - scripts/**
+
+jobs:
+  gcp-authentication:
+    name: GCP Authentication
+    uses: ./.github/workflows/gcp-authentication.yml@master
+    secrets: inherit
+
+  build-run-dataflow-job:
+    name: Build and Run Dataflow Job
+    runs-on: ubuntu-latest
+    needs: gcp-authentication
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+
+      - name: List GCS Bucket
+        run: gsutil ls gs://test-bucket-aman-via-terraform
