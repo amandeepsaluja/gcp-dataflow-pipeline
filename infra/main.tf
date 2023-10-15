@@ -26,7 +26,7 @@ resource "docker_image" "gar_image" {
   name = "${var.docker_address}/${var.project_id}/${var.docker_path}/${var.docker_image_name}:${var.docker_image_tag}"
 
   build {
-    path       = "./infra"
-    dockerfile = "Dockerfile" # file in infra/
+    contex     = "."
+    dockerfile = "infra/Dockerfile" # file in infra/
   }
 }
