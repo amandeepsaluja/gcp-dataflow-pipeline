@@ -11,14 +11,6 @@ provider "docker" {
   }
 }
 
-# Define the Docker build context.
-data "docker_build_context" "build_context" {
-
-  context    = "${path.module}/../src" # Set the context path to the Python directory
-  dockerfile = "${path.module}/../docker/Dockerfile"
-
-}
-
 # Build the Docker image and push it to GCR.
 resource "docker_image" "image" {
 
@@ -27,8 +19,8 @@ resource "docker_image" "image" {
 
   build {
 
-    context    = data.docker_build_context.build_context.context
-    dockerfile = data.docker_build_context.build_context.dockerfile
+    context    = "${path.module}/../src"
+    dockerfile = "${path.module}/../docker/Dockerfile"
 
   }
 
