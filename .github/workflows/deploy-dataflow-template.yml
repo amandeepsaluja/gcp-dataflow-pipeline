@@ -95,8 +95,8 @@ jobs:
           --staging-location ${{ env.STAGING_LOCATION }} \
           --temp-location ${{ env.TEMP_LOCATION }} \
           --service-account-email ${{ secrets.SA_EMAIL }} \
-          --parameters apiEndpoint="${{ env.API_ENDPOINT }}", \
-            fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}", \
-            tempLocation="${{ env.TEMP_LOCATION }}", \
-            dataset="${{ env.DATASET }}", \
-            table="${{ env.TABLE }}"
+          --parameters apiEndpoint="https://fantasy.premierleague.com/api/fixtures/?event=4" \
+          --parameters fieldsToExtract="code,event,finished,kickoff_time,team_a,stats" \
+          --parameters tempLocation="gs://dataflow-bucket-gcp-practice-project-aman/temp" \
+          --parameters dataset="raw_layer" \
+          --parameters table="fpl_dataflow_table_test"
