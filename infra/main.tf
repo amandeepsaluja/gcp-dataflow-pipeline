@@ -26,7 +26,6 @@ resource "docker_image" "image" {
 
 }
 
-
 resource "docker_registry_image" "dataflow_image" {
 
   provider      = docker.gcr_provider

@@ -27,6 +27,7 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v1
         with:
+          token_format: access_token
           workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
           service_account: ${{ secrets.SA_EMAIL }}
 
@@ -61,4 +62,4 @@ jobs:
           gcloud dataflow flex-template build \
           gs://dataflow-bucket-gcp-practice-project-aman/templates/fixtures_template.json \
           --sdk-language "PYTHON" \
-          --image "us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:v4"
+          --image "us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:v5"
