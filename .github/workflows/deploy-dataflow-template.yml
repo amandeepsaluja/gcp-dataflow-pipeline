@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - master
-    paths:
-      - infra/**
-      - docker/**
-      - src/**
+    # paths:
+    #   - infra/**
+    #   - docker/**
+    #   - src/**
+    #   - config/**
 
 env:
   # Environment Variables for Building the Template JSON configuration file
