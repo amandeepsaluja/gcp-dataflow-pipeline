@@ -72,9 +72,9 @@ jobs:
       #   env:
       #     TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
 
-      # # Set up Cloud SDK
-      # - name: Set up Cloud SDK
-      #   uses: google-github-actions/setup-gcloud@v1
+      # Set up Cloud SDK
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
 
       # # Build the JSON Configuration file for the Dataflow Flex Template
       # - name: Build Dataflow Template JSON Configuration File
@@ -93,4 +93,8 @@ jobs:
           --staging-location ${{ env.STAGING_LOCATION }} \
           --temp-location ${{ env.TEMP_LOCATION }} \
           --service-account-email ${{ secrets.SA_EMAIL }} \
-          --parameters apiEndpoint="${{ env.API_ENDPOINT }}",fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}",tempLocation="${{ env.TEMP_LOCATION }}",dataset="${{ env.DATASET }}",table="${{ env.TABLE }}"
+          --parameters apiEndpoint=${{ env.API_ENDPOINT }}
+          --parameters fieldsToExtract=${{ env.FIELDS_TO_EXTRACT }}
+          --parameters tempLocation=${{ env.TEMP_LOCATION }}
+          --parameters dataset=${{ env.DATASET }}
+          --parameters table=${{ env.TABLE }}
