@@ -1,0 +1,7 @@
+{
+    "defaultEnvironment": {},
+    "image": "us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:v1",
+    "sdkInfo": {
+        "language": "PYTHON"
+    }
+}
