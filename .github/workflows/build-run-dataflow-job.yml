@@ -31,5 +31,9 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
-      - name: List GCS Bucket
-        run: ./scripts/build_job.sh
+      - name: Build the Dataflow Job
+        run: |
+          gcloud dataflow flex-template build \
+          gs://dataflow-bucket-gcp-practice-project-aman/templates/fixtures_template.json \
+          --sdk-language "PYTHON" \
+          --image-gcr-path "us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:latest"
