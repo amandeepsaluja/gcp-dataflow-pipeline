@@ -1,0 +1,27 @@
+{
+    "name": "Batch Template for API Testing",
+    "description": "Batch Template for API Testing",
+    "parameters": [
+        {
+            "name": "apiEndpoint",
+            "helpText": "API Endpoint for the data"
+        },
+        {
+            "name": "fieldsToExtract",
+            "helpText": "Fields to extract from the JSON response"
+        },
+        {
+            "name": "tempLocation",
+            "helpText": "GCS Temp location for Dataflow"
+        },
+        {
+            "name": "dataset",
+            "helpText": "BigQuery Dataset"
+        },
+        {
+            "name": "table",
+            "helpText": "BigQuery Table"
+        }
+    ]
+
+}
