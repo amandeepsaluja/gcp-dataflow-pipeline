@@ -4,17 +4,17 @@ on:
   push:
     branches:
       - master
-    # paths:
-    #   - infra/**
-    #   - docker/**
-    #   - src/**
-    #   - config/**
+    paths:
+      - infra/**
+      - docker/**
+      - src/**
+      - config/**
 
 env:
   # Environment Variables for Building the Template JSON configuration file
   TEMPLATE_GCS_PATH: gs://dataflow-bucket-gcp-practice-project-aman/templates/api_json_template.json
   SDK_LANGUAGE: PYTHON
-  GCR_IMAGE_PATH: us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:v1
+  GCR_IMAGE_PATH: us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:v2
 
   # Environment Variables for Job Deployment
   JOB_NAME: fpl-api-template-test
@@ -50,41 +50,41 @@ jobs:
           workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
           service_account: ${{ secrets.SA_EMAIL }}
 
-      # # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-      # - name: Setup Terraform
-      #   uses: hashicorp/setup-terraform@v2
+      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
 
-      # # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-      # - name: Terraform Init
-      #   run: terraform init
-      #   working-directory: infra
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: terraform init
+        working-directory: infra
 
-      # # Generates an execution plan for Terraform
-      # - name: Terraform Plan
-      #   run: terraform plan
-      #   working-directory: infra
-      #   env:
-      #     TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
+      # Generates an execution plan for Terraform
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: infra
+        env:
+          TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
 
-      # # Builds or changes infrastructure
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve
-      #   working-directory: infra
-      #   env:
-      #     TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
+      # Builds or changes infrastructure
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: infra
+        env:
+          TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
 
       # Set up Cloud SDK
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
-      # # Build the JSON Configuration file for the Dataflow Flex Template
-      # - name: Build Dataflow Template JSON Configuration File
-      #   working-directory: config
-      #   run: |
-      #     gcloud dataflow flex-template build \
-      #     ${{ env.TEMPLATE_GCS_PATH }} \
-      #     --sdk-language ${{ env.SDK_LANGUAGE }} \
-      #     --image ${{ env.GCR_IMAGE_PATH }}
+      # Build the JSON Configuration file for the Dataflow Flex Template
+      - name: Build Dataflow Template JSON Configuration File
+        working-directory: config
+        run: |
+          gcloud dataflow flex-template build \
+          ${{ env.TEMPLATE_GCS_PATH }} \
+          --sdk-language ${{ env.SDK_LANGUAGE }} \
+          --image ${{ env.GCR_IMAGE_PATH }}
 
       # Build and Deploy the Dataflow Job
       - name: Build and Deploy Dataflow Job
@@ -95,4 +95,4 @@ jobs:
           --staging-location ${{ env.STAGING_LOCATION }} \
           --temp-location ${{ env.TEMP_LOCATION }} \
           --service-account-email ${{ secrets.SA_EMAIL }} \
-          --parameters=[apiEndpoint="${{ env.API_ENDPOINT }}",fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}",tempLocation="${{ env.TEMP_LOCATION }}",dataset="${{ env.DATASET }}",table="${{ env.TABLE }}"]
+          --parameters apiEndpoint="${{ env.API_ENDPOINT }}",fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}",tempLocation="${{ env.TEMP_LOCATION }}",dataset="${{ env.DATASET }}",table="${{ env.TABLE }}"

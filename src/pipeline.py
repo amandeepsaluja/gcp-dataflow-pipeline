@@ -1,7 +1,32 @@
 import argparse
 import apache_beam as beam
 
+from apache_beam.options.pipeline_options import GoogleCloudOptions
 from apache_beam.options.pipeline_options import PipelineOptions
+from apache_beam.options.pipeline_options import SetupOptions
+
+
+class CustomPipelineOptions(PipelineOptions):
+    @classmethod
+    def _add_argparse_args(cls, parser):
+        # # Set the required arguments
+        parser.add_value_provider_argument(
+            "--apiEndpoint", help="API Endpoint for the data", required=True
+        )
+        parser.add_value_provider_argument(
+            "--fieldsToExtract",
+            help="Fields to extract from the JSON response",
+            required=True,
+        )
+        parser.add_value_provider_argument(
+            "--tempLocation", help="GCS Temp location for Dataflow", required=True
+        )
+        parser.add_value_provider_argument(
+            "--dataset", help="BigQuery Dataset", required=True
+        )
+        parser.add_value_provider_argument(
+            "--table", help="BigQuery Table", required=True
+        )
 
 
 # Define a custom DoFn to extract the specified fields from nested JSON
@@ -54,46 +79,37 @@ class AddDatetimeAndDate(beam.DoFn):
         yield new_element  # Emit the new dictionary with the added columns
 
 
-def run():
+def run(argv=None):
     import requests
 
     parser = argparse.ArgumentParser()
 
-    # # Set the required arguments
-    parser.add_argument(
-        "--apiEndpoint", help="API Endpoint for the data", required=True
-    )
-    parser.add_argument(
-        "--fieldsToExtract",
-        help="Fields to extract from the JSON response",
-        required=True,
-    )
-    parser.add_argument(
-        "--tempLocation", help="GCS Temp location for Dataflow", required=True
-    )
-    parser.add_argument("--dataset", help="BigQuery Dataset", required=True)
-    parser.add_argument("--table", help="BigQuery Table", required=True)
-    # parser.add_argument("--schema", help="BigQuery Schema", required=True)
+    known_args, pipeline_args = parser.parse_known_args(argv)
 
-    args, beam_args = parser.parse_known_args()
-    beam_options = PipelineOptions(beam_args)
+    global cloud_options
+    global custom_options
 
-    with beam.Pipeline(options=beam_options) as p:
+    pipeline_options = PipelineOptions(pipeline_args)
+    cloud_options = pipeline_options.view_as(GoogleCloudOptions)
+    custom_options = pipeline_options.view_as(CustomPipelineOptions)
+    pipeline_options.view_as(SetupOptions).save_main_session = True
+
+    with beam.Pipeline(options=pipeline_options) as p:
         json_data = (
             p
-            | "Read API" >> beam.Create([args.apiEndpoint])
+            | "Read API" >> beam.Create([custom_options.apiEndpoint.get()])
             | "HTTP GET" >> beam.ParDo(lambda url: requests.get(url).json())
-            | "Extract Fields" >> beam.ParDo(ExtractFields(args.fieldsToExtract))
+            | "Extract Fields"
+            >> beam.ParDo(ExtractFields(custom_options.fieldsToExtract.get()))
             | "AddDatetimeAndDate" >> beam.ParDo(AddDatetimeAndDate())
             | "Write to BigQuery"
             >> beam.io.WriteToBigQuery(
-                table=args.table,
-                dataset=args.dataset,
-                # schema=args.schema,
+                table=custom_options.table.get(),
+                dataset=custom_options.dataset.get(),
                 schema="SCHEMA_AUTODETECT",
                 create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,
                 write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND,
-                custom_gcs_temp_location=args.tempLocation,
+                custom_gcs_temp_location=custom_options.tempLocation.get(),
             )
         )
 
