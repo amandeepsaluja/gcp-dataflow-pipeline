@@ -11,9 +11,9 @@ In this project, we will build a data pipeline using Google Cloud Platform's Dat
 ## Technologies Used
 
 - Google Cloud Platform
+  - BigQuery
   - Cloud Storage
   - Cloud Dataflow
-  - BigQuery
   - Workload Identity Federation
 - Python
 - Terraform
@@ -33,6 +33,8 @@ In this step, we will be setting up Terraform to create the infrastructure neede
 
 In this step, we will be creating a Docker image that will be used to run the pipeline. The Docker image will be created in the `Dockerfile` file. We will then deploy the Docker image to Artifact Registry.
 
-### 4. Build and run the job
+##### References
 
-In this step, we will be building and running the job using the Dataflow service. The job will be run using the `run.sh` script.
+- https://cloud.google.com/dataflow/docs/guides/templates/configuring-flex-templates#setting_required_dockerfile_environment_variables
+- https://cloud.google.com/sdk/gcloud/reference/dataflow/flex-template/build
+- https://cloud.google.com/sdk/gcloud/reference/dataflow/flex-template/run
