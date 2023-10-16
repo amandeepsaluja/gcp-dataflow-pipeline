@@ -78,13 +78,12 @@ jobs:
 
       # Build the JSON Configuration file for the Dataflow Flex Template
       - name: Build Dataflow Template JSON Configuration File
-        working-directory: config
         run: |
           gcloud dataflow flex-template build \
           ${{ env.TEMPLATE_GCS_PATH }} \
           --sdk-language ${{ env.SDK_LANGUAGE }} \
           --image ${{ env.GCR_IMAGE_PATH }}
-          --metadata-file=api_json_metadata.json
+          --metadata-file=config/metadata.json
 
       # # Build and Deploy the Dataflow Job
       # - name: Build and Deploy Dataflow Job
