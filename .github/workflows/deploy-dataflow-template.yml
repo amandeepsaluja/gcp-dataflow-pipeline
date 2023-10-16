@@ -23,7 +23,7 @@ env:
   REGION: us-central1
 
   # Environment Variables for Parameterizing the Dataflow Job
-  API_ENDPOINT: https://fantasy.premierleague.com/api/fixtures/?event=3
+  API_ENDPOINT: https://fantasy.premierleague.com/api/fixtures/?event=4
   FIELDS_TO_EXTRACT: code,event,finished,kickoff_time,team_a,stats
   DATASET: raw_layer
   TABLE: fpl_dataflow_table_test
@@ -50,41 +50,41 @@ jobs:
           workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
           service_account: ${{ secrets.SA_EMAIL }}
 
-      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+      # # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      # - name: Setup Terraform
+      #   uses: hashicorp/setup-terraform@v2
 
-      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-      - name: Terraform Init
-        run: terraform init
-        working-directory: infra
+      # # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      # - name: Terraform Init
+      #   run: terraform init
+      #   working-directory: infra
 
-      # Generates an execution plan for Terraform
-      - name: Terraform Plan
-        run: terraform plan
-        working-directory: infra
-        env:
-          TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
+      # # Generates an execution plan for Terraform
+      # - name: Terraform Plan
+      #   run: terraform plan
+      #   working-directory: infra
+      #   env:
+      #     TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
 
-      # Builds or changes infrastructure
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-        working-directory: infra
-        env:
-          TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
+      # # Builds or changes infrastructure
+      # - name: Terraform Apply
+      #   run: terraform apply -auto-approve
+      #   working-directory: infra
+      #   env:
+      #     TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
 
       # Set up Cloud SDK
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
-      # Build the JSON Configuration file for the Dataflow Flex Template
-      - name: Build Dataflow Template JSON Configuration File
-        working-directory: config
-        run: |
-          gcloud dataflow flex-template build \
-          ${{ env.TEMPLATE_GCS_PATH }} \
-          --sdk-language ${{ env.SDK_LANGUAGE }} \
-          --image ${{ env.GCR_IMAGE_PATH }}
+      # # Build the JSON Configuration file for the Dataflow Flex Template
+      # - name: Build Dataflow Template JSON Configuration File
+      #   working-directory: config
+      #   run: |
+      #     gcloud dataflow flex-template build \
+      #     ${{ env.TEMPLATE_GCS_PATH }} \
+      #     --sdk-language ${{ env.SDK_LANGUAGE }} \
+      #     --image ${{ env.GCR_IMAGE_PATH }}
 
       # Build and Deploy the Dataflow Job
       - name: Build and Deploy Dataflow Job
@@ -95,4 +95,8 @@ jobs:
           --staging-location ${{ env.STAGING_LOCATION }} \
           --temp-location ${{ env.TEMP_LOCATION }} \
           --service-account-email ${{ secrets.SA_EMAIL }} \
-          --parameters apiEndpoint="${{ env.API_ENDPOINT }}",fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}",tempLocation="${{ env.TEMP_LOCATION }}",dataset="${{ env.DATASET }}",table="${{ env.TABLE }}"
+          --parameters apiEndpoint="${{ env.API_ENDPOINT }}"
+          --parameters fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}"
+          --parameters tempLocation="${{ env.TEMP_LOCATION }}"
+          --parameters dataset="${{ env.DATASET }}"
+          --parameters table="${{ env.TABLE }}"
