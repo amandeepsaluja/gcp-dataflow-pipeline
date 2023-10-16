@@ -92,5 +92,7 @@ jobs:
           gcloud dataflow flex-template run ${{ env.JOB_NAME }} \
           --template-file-gcs-location ${{ env.TEMPLATE_GCS_PATH }} \
           --region ${{ env.REGION }} \
+          --staging-location ${{ env.STAGING_LOCATION }} \
+          --temp-location ${{ env.TEMP_LOCATION }} \
           --service-account-email ${{ secrets.SA_EMAIL }} \
-          --parameters ^:^apiEndpoint="https://fantasy.premierleague.com/api/fixtures/?event=4":fieldsToExtract="code,event,finished,kickoff_time,team_a,stats":tempLocation="gs://dataflow-bucket-gcp-practice-project-aman/temp":dataset="raw_layer":table="fpl_dataflow_table_test"
+          --parameters ^:^apiEndpoint="https://fantasy.premierleague.com/api/fixtures/?event=4":fieldsToExtract="code,event,finished,kickoff_time,team_a,stats":dataset="raw_layer":table="fpl_dataflow_table_test"
