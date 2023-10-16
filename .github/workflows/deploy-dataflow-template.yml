@@ -17,7 +17,7 @@ env:
   GCR_IMAGE_PATH: us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:v2
 
   # Environment Variables for Job Deployment
-  JOB_NAME: fpl-api-template-test
+  JOB_NAME: fpl-api-template-test-v2
   STAGING_LOCATION: gs://dataflow-bucket-gcp-practice-project-aman/staging
   TEMP_LOCATION: gs://dataflow-bucket-gcp-practice-project-aman/temp
   REGION: us-central1
@@ -95,8 +95,8 @@ jobs:
           --staging-location ${{ env.STAGING_LOCATION }} \
           --temp-location ${{ env.TEMP_LOCATION }} \
           --service-account-email ${{ secrets.SA_EMAIL }} \
-          --parameters apiEndpoint="${{ env.API_ENDPOINT }}"
-          --parameters fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}"
-          --parameters tempLocation="${{ env.TEMP_LOCATION }}"
-          --parameters dataset="${{ env.DATASET }}"
+          --parameters apiEndpoint="${{ env.API_ENDPOINT }}" \
+          --parameters fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}" \
+          --parameters tempLocation="${{ env.TEMP_LOCATION }}" \
+          --parameters dataset="${{ env.DATASET }}" \
           --parameters table="${{ env.TABLE }}"
