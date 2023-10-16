@@ -12,7 +12,7 @@ on:
 
 env:
   # Environment Variables for Building the Template JSON configuration file
-  TEMPLATE_GCS_PATH: gs://dataflow-bucket-gcp-practice-project-aman/templates/api_json_template.json
+  TEMPLATE_GCS_PATH: gs://dataflow-bucket-gcp-practice-project-aman/templates/metadata.json
   SDK_LANGUAGE: PYTHON
   GCR_IMAGE_PATH: us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:v1
 
@@ -84,7 +84,8 @@ jobs:
           gcloud dataflow flex-template build \
           ${{ env.TEMPLATE_GCS_PATH }} \
           --sdk-language ${{ env.SDK_LANGUAGE }} \
-          --image ${{ env.GCR_IMAGE_PATH }}
+          --image ${{ env.GCR_IMAGE_PATH }} \
+          --flex-template-base-image "PYTHON3" \
           --metadata-file=metadata.json
 
       # # Build and Deploy the Dataflow Job
