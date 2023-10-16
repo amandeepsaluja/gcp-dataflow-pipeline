@@ -17,7 +17,7 @@ env:
   GCR_IMAGE_PATH: us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:v3
 
   # Environment Variables for Job Deployment
-  JOB_NAME: fpl-api-template-test-v2
+  JOB_NAME: fpl-api-template-test-v3
   STAGING_LOCATION: gs://dataflow-bucket-gcp-practice-project-aman/staging
   TEMP_LOCATION: gs://dataflow-bucket-gcp-practice-project-aman/temp
   REGION: us-central1
@@ -77,14 +77,14 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
-      # # Build the JSON Configuration file for the Dataflow Flex Template
-      # - name: Build Dataflow Template JSON Configuration File
-      #   working-directory: config
-      #   run: |
-      #     gcloud dataflow flex-template build \
-      #     ${{ env.TEMPLATE_GCS_PATH }} \
-      #     --sdk-language ${{ env.SDK_LANGUAGE }} \
-      #     --image ${{ env.GCR_IMAGE_PATH }}
+      # Build the JSON Configuration file for the Dataflow Flex Template
+      - name: Build Dataflow Template JSON Configuration File
+        working-directory: config
+        run: |
+          gcloud dataflow flex-template build \
+          ${{ env.TEMPLATE_GCS_PATH }} \
+          --sdk-language ${{ env.SDK_LANGUAGE }} \
+          --image ${{ env.GCR_IMAGE_PATH }}
 
       # Build and Deploy the Dataflow Job
       - name: Build and Deploy Dataflow Job
