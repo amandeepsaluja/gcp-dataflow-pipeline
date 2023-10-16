@@ -19,7 +19,9 @@ class CustomPipelineOptions(PipelineOptions):
             required=True,
         )
         parser.add_value_provider_argument(
-            "--tempLocation", help="GCS Temp location for Dataflow", required=True
+            "--custom_gcs_temp_location",
+            help="GCS Temp location for Dataflow",
+            required=True,
         )
         parser.add_value_provider_argument(
             "--dataset", help="BigQuery Dataset", required=True
@@ -109,7 +111,7 @@ def run(argv=None):
                 schema="SCHEMA_AUTODETECT",
                 create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,
                 write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND,
-                custom_gcs_temp_location=custom_options.tempLocation.get(),
+                custom_gcs_temp_location=custom_options.custom_gcs_temp_location.get(),
             )
         )
 
