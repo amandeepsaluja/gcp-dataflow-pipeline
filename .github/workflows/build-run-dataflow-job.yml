@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - scripts/**
+      - config/**
 
 jobs:
   deploy-run-dataflow-job:
