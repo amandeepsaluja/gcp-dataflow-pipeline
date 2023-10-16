@@ -42,3 +42,4 @@ variable "docker_image_tag" {
 
 variable "gcp_auth_token" {
 }
+#
