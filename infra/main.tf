@@ -33,3 +33,4 @@ resource "docker_registry_image" "dataflow_image" {
   keep_remotely = true
 
 }
+#
