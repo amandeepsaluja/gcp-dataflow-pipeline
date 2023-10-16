@@ -67,7 +67,7 @@ def run():
                 table=args.table,
                 dataset=args.dataset,
                 schema=args.schema,
-                project=args.project,
+                # project=args.project,
                 create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,
                 write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND,
                 custom_gcs_temp_location=args.temp_location,
