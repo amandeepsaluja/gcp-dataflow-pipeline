@@ -1,13 +1,13 @@
 import argparse
 import apache_beam as beam
-import requests
 
 from apache_beam.options.pipeline_options import PipelineOptions
-from datetime import datetime
 
 
 class ExtractFields(beam.DoFn):
     def process(self, element):
+        from datetime import datetime
+
         # Extract the required fields
         event = element["event"]  # gameweek
 
@@ -28,6 +28,8 @@ class ExtractFields(beam.DoFn):
 
 
 def run():
+    import requests
+
     parser = argparse.ArgumentParser()
 
     # # Set the required arguments

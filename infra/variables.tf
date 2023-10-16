@@ -37,7 +37,7 @@ variable "docker_image_name" {
 variable "docker_image_tag" {
   type        = string
   description = "Docker image tag"
-  default     = "v3"
+  default     = "v4"
 }
 
 variable "gcp_auth_token" {
