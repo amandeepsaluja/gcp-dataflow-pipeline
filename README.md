@@ -38,3 +38,5 @@ In this step, we will be creating a Docker image that will be used to run the pi
 - https://cloud.google.com/dataflow/docs/guides/templates/configuring-flex-templates#setting_required_dockerfile_environment_variables
 - https://cloud.google.com/sdk/gcloud/reference/dataflow/flex-template/build
 - https://cloud.google.com/sdk/gcloud/reference/dataflow/flex-template/run
+- https://xebia.com/blog/a-declarative-approach-for-dataflow-flex-templates/
+- https://cloud.google.com/blog/topics/developers-practitioners/why-you-should-be-using-flex-templates-your-dataflow-deployments
