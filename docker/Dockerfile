@@ -11,7 +11,7 @@ COPY ./pipeline.py ${WORKDIR}/
 
 # set environment variables
 ENV FLEX_TEMPLATE_PYTHON_REQUIREMENTS_FILE="${WORKDIR}/requirements.txt"
-ENV FLEX_TEMPLATE_PYTHON_PY_FILE="${WORKDIR}/my_pipeline.py"
+ENV FLEX_TEMPLATE_PYTHON_PY_FILE="${WORKDIR}/pipeline.py"
 
 # Install apache-beam and other dependencies to launch the pipeline
 RUN apt-get update
