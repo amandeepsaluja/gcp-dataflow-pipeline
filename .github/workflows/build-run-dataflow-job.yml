@@ -36,4 +36,4 @@ jobs:
           gcloud dataflow flex-template build \
           gs://dataflow-bucket-gcp-practice-project-aman/templates/fixtures_template.json \
           --sdk-language "PYTHON" \
-          --image "us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:1"
+          --image "us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:v2"
