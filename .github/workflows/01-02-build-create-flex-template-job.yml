@@ -1,0 +1,69 @@
+name: Build and Deploy Dataflow Flex Template
+
+on: workflow_dispatch # to be triggered manually
+
+env:
+  # Environment Variables for Building the Template JSON configuration file
+  TEMPLATE_GCS_PATH: gs://dataflow-bucket-gcp-practice-project-aman/templates/api_json_template.json
+  SDK_LANGUAGE: PYTHON
+  GCR_IMAGE_PATH: us-central1-docker.pkg.dev/gcp-practice-project-aman/dataflow-templates/fpl-dataflow-template:v3
+
+  # Environment Variables for Job Deployment
+  JOB_NAME: fpl-api-template-test-v3
+  STAGING_LOCATION: gs://dataflow-bucket-gcp-practice-project-aman/staging
+  TEMP_LOCATION: gs://dataflow-bucket-gcp-practice-project-aman/temp
+  REGION: us-central1
+
+  # Environment Variables for Parameterizing the Dataflow Job
+  API_ENDPOINT: https://fantasy.premierleague.com/api/fixtures/?event=4
+  FIELDS_TO_EXTRACT: code,event,finished,kickoff_time,team_a,stats
+  DATASET: raw_layer
+  TABLE: fpl_dataflow_table_test
+
+jobs:
+  deploy-template:
+    name: Dataflow Template
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 01-flex-template
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # authenticate with gcloud
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          token_format: access_token
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.SA_EMAIL }}
+
+      # Set up Cloud SDK
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      # Build the JSON Configuration file for the Dataflow Flex Template
+      - name: Build Dataflow Template JSON Configuration File
+        run: |
+          gcloud dataflow flex-template build \
+          ${{ env.TEMPLATE_GCS_PATH }} \
+          --sdk-language ${{ env.SDK_LANGUAGE }} \
+          --image ${{ env.GCR_IMAGE_PATH }}
+
+      # Build and Deploy the Dataflow Job
+      - name: Build and Deploy Dataflow Job
+        run: |
+          gcloud dataflow flex-template run ${{ env.JOB_NAME }} \
+          --template-file-gcs-location ${{ env.TEMPLATE_GCS_PATH }} \
+          --region ${{ env.REGION }} \
+          --staging-location ${{ env.STAGING_LOCATION }} \
+          --temp-location ${{ env.TEMP_LOCATION }} \
+          --service-account-email ${{ secrets.SA_EMAIL }} \
+          --parameters ^~^apiEndpoint="${{ env.API_ENDPOINT }}"~fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}"~custom_gcs_temp_location="${{ env.TEMP_LOCATION }}"~dataset="${{ env.DATASET }}"~table="${{ env.TABLE }}"

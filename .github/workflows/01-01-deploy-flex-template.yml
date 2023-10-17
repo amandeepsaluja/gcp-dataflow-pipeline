@@ -1,0 +1,58 @@
+name: Build & Deploy Flex Template Image
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 01-flex-template/infra/**
+      - 01-flex-template/docker/**
+      - 01-flex-template/src/**
+
+jobs:
+  build-deploy-flex-template:
+    name: Build & Deploy Flex Template
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 01-flex-template
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # authenticate with gcloud
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          token_format: access_token
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.SA_EMAIL }}
+
+      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: terraform init
+        working-directory: infra
+
+      # Generates an execution plan for Terraform
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: infra
+        env:
+          TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
+
+      # Builds or changes infrastructure
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: infra
+        env:
+          TF_VAR_gcp_auth_token: ${{ steps.auth.outputs.access_token }}
