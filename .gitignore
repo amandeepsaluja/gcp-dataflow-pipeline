@@ -160,6 +160,6 @@ cython_debug/
 #.idea/
 
 # jupyter
-*.ipynb
 src/config.yaml
 01-flex-template/src/config.yaml
+01-flex-template/config/config.yaml
