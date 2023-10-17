@@ -162,3 +162,4 @@ cython_debug/
 # jupyter
 *.ipynb
 src/config.yaml
+01-flex-template/src/config.yaml
