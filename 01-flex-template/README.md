@@ -19,6 +19,24 @@ In this project, we will build a data pipeline using Google Cloud Platform's Dat
 - Terraform
 - GitHub Actions
 
+## Repository Structure
+
+```
+📦gcp-dataflow-pipeline
+ ┣ 📂.github
+ ┃ ┗ 📂workflows
+ ┃ ┃ ┗ 📜deploy-dataflow-template.yml
+ ┣ 📂docker
+ ┃ ┗ 📜Dockerfile
+ ┣ 📂infra
+ ┃ ┣ 📜main.tf
+ ┃ ┣ 📜providers.tf
+ ┃ ┗ 📜variables.tf
+ ┣ 📂src
+ ┃ ┣ 📜pipeline.py
+ ┃ ┣ 📜requirements.txt
+```
+
 ## Project Steps
 
 ### 1. Create Apache Beam Pipeline (Flex Template)
@@ -33,7 +51,17 @@ In this step, we will be setting up Terraform to create the infrastructure neede
 
 In this step, we will be creating a Docker image that will be used to run the pipeline. The Docker image will be created in the `Dockerfile` file. We will then deploy the Docker image to Artifact Registry.
 
-##### References
+### 4. Create and Deploy Flex Template Job via GitHub Actions
+
+In this step, we will be creating a GitHub Action that will be used to deploy the Flex Template Job to Dataflow. The GitHub Action will be created in the `.github/workflows/deploy-dataflow-template.yml` file.
+
+## Issues I Faced (WIP to make it more descriptive)
+
+- Flags in Parameters in GitHub Actions
+- Docker build error due to path issues
+- Context in Terraform
+
+## References
 
 - https://cloud.google.com/dataflow/docs/guides/templates/configuring-flex-templates#setting_required_dockerfile_environment_variables
 - https://cloud.google.com/sdk/gcloud/reference/dataflow/flex-template/build
