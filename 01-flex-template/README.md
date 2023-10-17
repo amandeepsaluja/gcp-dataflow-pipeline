@@ -1,4 +1,4 @@
-# GCP Dataflow Pipeline
+# Dataflow Flex Template Pipeline
 
 ## Overview
 
