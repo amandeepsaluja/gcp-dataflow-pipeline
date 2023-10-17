@@ -22,10 +22,7 @@ In this project, we will build a data pipeline using Google Cloud Platform's Dat
 ## Repository Structure
 
 ```
-📦gcp-dataflow-pipeline
- ┣ 📂.github
- ┃ ┗ 📂workflows
- ┃ ┃ ┗ 📜deploy-dataflow-template.yml
+📦01-flex-template
  ┣ 📂docker
  ┃ ┗ 📜Dockerfile
  ┣ 📂infra
