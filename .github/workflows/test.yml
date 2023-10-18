@@ -1,0 +1,25 @@
+name: Test
+
+on: workflow_dispatch # to be triggered manually
+
+jobs:
+  run-template:
+    name: Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 02-google-template/01-batch-jobs/gcs-to-bigquery/01-text-file/01-via-github-actions
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # authenticate with gcloud
+      - name: Load environment from YAML
+        uses: doughepi/yaml-env-action
+        with:
+          files: config/github-actions.yaml

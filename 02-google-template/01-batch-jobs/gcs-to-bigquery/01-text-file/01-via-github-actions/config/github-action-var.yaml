@@ -1,0 +1,18 @@
+# Environment Variables for Cloud Storage
+GCS_BUCKET_NAME: gs://dataflow-bucket-gcp-practice-project-aman
+GCS_FOLDER_LOCATION: 02-google-template/01-batch-jobs/gcs-to-bigquery/01-text-file/01-via-github-actions
+
+# Environment Variables for Job
+JOB_NAME: batch-gcs-to-bigquery-via-github
+REGION: us-central1
+
+# Environment Variables for Javascript
+JS_FUNCTION_NAME: transform
+JS_FILE_NAME: transform.js
+
+# Environment Variables for BigQuery
+BQ_SCHEMA_FILE_NAME: bq-schema.json
+BQ_TABEL_NAME: gcp-practice-project-aman:raw_layer.dataflow_template_table
+
+# Environment Variables for Input Data
+INPUT_FILE_NAME: sample_input.csv
