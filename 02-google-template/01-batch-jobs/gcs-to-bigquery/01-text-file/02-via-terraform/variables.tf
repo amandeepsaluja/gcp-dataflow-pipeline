@@ -19,7 +19,7 @@ variable "gcs_bucket_name" {
 variable "gcs_folder_location" {
   type        = string
   description = "Google Cloud Storage folder location"
-  default     = "02-google-template/01-batch-jobs/gcs-to-bigquery/01-text-file/02-via-terraform"
+  default     = "02-google-template/01-batch-jobs/gcs-to-bigquery/01-text-file/02-via-terraform/"
 }
 
 variable "js_file_source" {
