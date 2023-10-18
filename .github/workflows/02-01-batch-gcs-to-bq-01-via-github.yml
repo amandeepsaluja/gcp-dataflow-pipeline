@@ -24,7 +24,7 @@ env:
 
   # Environment Variables for BigQuery
   BQ_SCHEMA_FILE_NAME: schema.json
-  BQ_TABEL_NAME: raw_layer.dataflow_template_table
+  BQ_TABEL_NAME: gcp-practice-project-aman:raw_layer.dataflow_template_table
 
   # Environment Variables for Input Data
   INPUT_FILE_NAME: sample_input.csv
