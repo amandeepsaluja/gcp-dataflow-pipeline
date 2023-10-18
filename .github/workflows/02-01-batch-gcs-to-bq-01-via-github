@@ -1,4 +1,4 @@
-name: Build and Deploy Dataflow Flex Template
+name: Google Provided Batch Job - GCS to BigQuery - via Github Actions
 
 on: workflow_dispatch # to be triggered manually
 
@@ -23,7 +23,7 @@ env:
   INPUT_FILE_NAME: sample_input.csv
 
 jobs:
-  deploy-template:
+  run-template:
     name: Dataflow Template
     runs-on: ubuntu-latest
     defaults:
