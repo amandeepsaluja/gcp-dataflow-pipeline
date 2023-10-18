@@ -4,7 +4,7 @@ on: workflow_dispatch # to be triggered manually
 
 jobs:
   run-template:
-    name: Test
+    name: Test Template
     runs-on: ubuntu-latest
     defaults:
       run:
