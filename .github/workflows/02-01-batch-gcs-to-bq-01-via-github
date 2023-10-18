@@ -1,0 +1,69 @@
+name: Build and Deploy Dataflow Flex Template
+
+on: workflow_dispatch # to be triggered manually
+
+env:
+  # Environment Variables for Cloud Storage
+  GCS_BUCKET_NAME: gs://dataflow-bucket-gcp-practice-project-aman
+  GCS_FOLDER_LOCATION: 02-google-template/01-batch-jobs/gcs-to-bigquery/01-text-file/01-via-github-actions
+
+  # Environment Variables for Job
+  JOB_NAME: batch-gcs-to-bigquery-via-github
+  REGION: us-central1
+
+  # Environment Variables for Javascript
+  JS_FUNCTION_NAME: transform
+  JS_FILE_NAME: transform.js
+
+  # Environment Variables for BigQuery
+  BQ_SCHEMA_FILE_NAME: schema.json
+  BQ_TABEL_NAME: raw_layer.dataflow_template_table
+
+  # Environment Variables for Input Data
+  INPUT_FILE_NAME: sample_input.csv
+
+jobs:
+  deploy-template:
+    name: Dataflow Template
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 02-google-template/01-batch-jobs/gcs-to-bigquery/01-text-file/01-via-github-actions
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # authenticate with gcloud
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          token_format: access_token
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.SA_EMAIL }}
+
+      # Set up Cloud SDK
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Write Files to Cloud Storage
+        run: |
+          gsutil cp user-function/${{ env.JS_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/user-function/${{ env.JS_FILE_NAME }}
+          gsutil cp config/${{ env.BQ_SCHEMA_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/config/${{ env.BQ_SCHEMA_FILE_NAME }}
+          gsutil cp data/${{ env.INPUT_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/data/${{ env.INPUT_FILE_NAME }}
+
+      # # Build and Deploy the Dataflow Job
+      # - name: Run Google Template Job
+      #   run: |
+      #     gcloud dataflow jobs run ${{ env.JOB_NAME }} \
+      #     --gcs-location  gs://dataflow-templates-${{ env.REGION }}/latest/GCS_Text_to_BigQuery \
+      #     --region ${{ env.REGION }} \
+      #     --staging-location ${{ env.STAGING_LOCATION }} \
+      #     --temp-location ${{ env.TEMP_LOCATION }} \
+      #     --service-account-email ${{ secrets.SA_EMAIL }} \
+      #     --parameters ^~^javascriptTextTransformFunctionName="${{ env.API_ENDPOINT }}"~fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}"~custom_gcs_temp_location="${{ env.TEMP_LOCATION }}"~dataset="${{ env.DATASET }}"~table="${{ env.TABLE }}"

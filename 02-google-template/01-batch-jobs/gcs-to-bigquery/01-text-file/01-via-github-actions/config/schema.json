@@ -1,0 +1,24 @@
+{
+    "BigQuery Schema": [
+      {
+        "name": "location",
+        "type": "STRING"
+      },
+      {
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "name": "age",
+        "type": "STRING"
+      },
+      {
+        "name": "color",
+        "type": "STRING"
+      },
+      {
+        "name": "coffee",
+        "type": "STRING"
+      }
+    ]
+  }
