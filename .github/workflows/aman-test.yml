@@ -21,4 +21,4 @@ jobs:
       # load yaml file
       - name: Load environment from YAML
         run: |
-          ENV_VARS=$(config/github-actions-var.yaml)
+          ENV_VARS=$(/config/github-actions-var.yaml)
