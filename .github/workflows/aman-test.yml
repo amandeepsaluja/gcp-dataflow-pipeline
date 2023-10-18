@@ -20,6 +20,5 @@ jobs:
 
       # load yaml file
       - name: Load environment from YAML
-        uses: c-py/action-dotenv-to-setenv@v2
-        with:
-          env-file: config/github-actions-var.yaml
+        run: |
+          ENV_VARS=$(config/github-actions-var.yaml)
