@@ -13,14 +13,14 @@ env:
 
   # Environment Variables for Javascript
   JS_FUNCTION_NAME: transform
-  JS_FILE_NAME: transform.js
+  JS_FILE_NAME: user-function/transform.js
 
   # Environment Variables for BigQuery
-  BQ_SCHEMA_FILE_NAME: bq-schema.json
-  BQ_TABEL_NAME: gcp-practice-project-aman:raw_layer.dataflow_template_table
+  BQ_SCHEMA_FILE_NAME: config/bq-schema.json
+  BQ_TABLE_NAME: gcp-practice-project-aman:raw_layer.dataflow_template_table
 
   # Environment Variables for Input Data
-  INPUT_FILE_NAME: sample_input.csv
+  INPUT_FILE_NAME: data/sample_input.csv
 
 jobs:
   run-template:
@@ -51,11 +51,12 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
+        # dump the files to cloud storage
       - name: Write Files to Cloud Storage
         run: |
-          gsutil cp user-function/${{ env.JS_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/user-function/${{ env.JS_FILE_NAME }}
-          gsutil cp config/${{ env.BQ_SCHEMA_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/config/${{ env.BQ_SCHEMA_FILE_NAME }}
-          gsutil cp data/${{ env.INPUT_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/data/${{ env.INPUT_FILE_NAME }}
+          gsutil cp ${{ env.JS_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/${{ env.JS_FILE_NAME }}
+          gsutil cp ${{ env.BQ_SCHEMA_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/${{ env.BQ_SCHEMA_FILE_NAME }}
+          gsutil cp ${{ env.INPUT_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/${{ env.INPUT_FILE_NAME }}
 
       # Build and Deploy the Dataflow Job
       - name: Run Google Template Job
@@ -70,5 +71,5 @@ jobs:
           JSONPath="${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/config/${{ env.BQ_SCHEMA_FILE_NAME }}",\
           javascriptTextTransformGcsPath="${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/user-function/${{ env.JS_FILE_NAME }}",\
           inputFilePattern="${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/data/${{ env.INPUT_FILE_NAME }}",\
-          outputTable="${{ env.BQ_TABEL_NAME }}",\
+          outputTable="${{ env.BQ_TABLE_NAME }}",\
           bigQueryLoadingTemporaryDirectory="${{ env.GCS_BUCKET_NAME }}/temp"
