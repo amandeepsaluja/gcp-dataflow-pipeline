@@ -1,13 +1,6 @@
 name: Google Provided Batch Job - GCS to BigQuery - via Github Actions
 
-# on: workflow_dispatch # to be triggered manually
-
-on:
-  push:
-    branches:
-      - master
-
-#
+on: workflow_dispatch # to be triggered manually
 
 env:
   # Environment Variables for Cloud Storage
@@ -23,7 +16,7 @@ env:
   JS_FILE_NAME: transform.js
 
   # Environment Variables for BigQuery
-  BQ_SCHEMA_FILE_NAME: schema.json
+  BQ_SCHEMA_FILE_NAME: bq-schema.json
   BQ_TABEL_NAME: gcp-practice-project-aman:raw_layer.dataflow_template_table
 
   # Environment Variables for Input Data
@@ -58,11 +51,11 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
-      # - name: Write Files to Cloud Storage
-      #   run: |
-      #     gsutil cp user-function/${{ env.JS_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/user-function/${{ env.JS_FILE_NAME }}
-      #     gsutil cp config/${{ env.BQ_SCHEMA_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/config/${{ env.BQ_SCHEMA_FILE_NAME }}
-      #     gsutil cp data/${{ env.INPUT_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/data/${{ env.INPUT_FILE_NAME }}
+      - name: Write Files to Cloud Storage
+        run: |
+          gsutil cp user-function/${{ env.JS_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/user-function/${{ env.JS_FILE_NAME }}
+          gsutil cp config/${{ env.BQ_SCHEMA_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/config/${{ env.BQ_SCHEMA_FILE_NAME }}
+          gsutil cp data/${{ env.INPUT_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/data/${{ env.INPUT_FILE_NAME }}
 
       # Build and Deploy the Dataflow Job
       - name: Run Google Template Job
