@@ -72,4 +72,10 @@ jobs:
           --region ${{ env.REGION }} \
           --staging-location ${{ env.GCS_BUCKET_NAME }}/staging \
           --service-account-email ${{ secrets.SA_EMAIL }} \
-          --parameters ^~^javascriptTextTransformFunctionName=${{ env.JS_FUNCTION_NAME }}~JSONPath=${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/config/${{ env.BQ_SCHEMA_FILE_NAME }}~javascriptTextTransformGcsPath=${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/user-function/${{ env.JS_FILE_NAME }}~inputFilePattern=${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/data/${{ env.INPUT_FILE_NAME }}~outputTable=${{ env.BQ_TABEL_NAME }}~bigQueryLoadingTemporaryDirectory=${{ env.GCS_BUCKET_NAME }}/temp
+          --parameters \
+          javascriptTextTransformFunctionName=${{ env.JS_FUNCTION_NAME }}, \
+          JSONPath=${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/config/${{ env.BQ_SCHEMA_FILE_NAME }}, \
+          javascriptTextTransformGcsPath=${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/user-function/${{ env.JS_FILE_NAME }}, \
+          inputFilePattern=${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/data/${{ env.INPUT_FILE_NAME }}, \
+          outputTable=${{ env.BQ_TABEL_NAME }}, \
+          bigQueryLoadingTemporaryDirectory=${{ env.GCS_BUCKET_NAME }}/temp
