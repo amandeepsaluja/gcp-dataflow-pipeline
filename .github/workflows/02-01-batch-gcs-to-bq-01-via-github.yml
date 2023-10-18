@@ -64,13 +64,18 @@ jobs:
           gsutil cp config/${{ env.BQ_SCHEMA_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/config/${{ env.BQ_SCHEMA_FILE_NAME }}
           gsutil cp data/${{ env.INPUT_FILE_NAME }} ${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/data/${{ env.INPUT_FILE_NAME }}
 
-      # # Build and Deploy the Dataflow Job
-      # - name: Run Google Template Job
-      #   run: |
-      #     gcloud dataflow jobs run ${{ env.JOB_NAME }} \
-      #     --gcs-location  gs://dataflow-templates-${{ env.REGION }}/latest/GCS_Text_to_BigQuery \
-      #     --region ${{ env.REGION }} \
-      #     --staging-location ${{ env.STAGING_LOCATION }} \
-      #     --temp-location ${{ env.TEMP_LOCATION }} \
-      #     --service-account-email ${{ secrets.SA_EMAIL }} \
-      #     --parameters ^~^javascriptTextTransformFunctionName="${{ env.API_ENDPOINT }}"~fieldsToExtract="${{ env.FIELDS_TO_EXTRACT }}"~custom_gcs_temp_location="${{ env.TEMP_LOCATION }}"~dataset="${{ env.DATASET }}"~table="${{ env.TABLE }}"
+      # Build and Deploy the Dataflow Job
+      - name: Run Google Template Job
+        run: |
+          gcloud dataflow jobs run ${{ env.JOB_NAME }} \
+          --gcs-location  gs://dataflow-templates-${{ env.REGION }}/latest/GCS_Text_to_BigQuery \
+          --region ${{ env.REGION }} \
+          --staging-location ${{ env.GCS_BUCKET_NAME }}/staging \
+          --temp-location ${{ env.GCS_BUCKET_NAME }}/temp \
+          --service-account-email ${{ secrets.SA_EMAIL }} \
+          --parameters ^~^javascriptTextTransformFunctionName=${{ env.JS_FUNCTION_NAME }} \
+          ~JSONPath=${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/config/${{ env.BQ_SCHEMA_FILE_NAME }} \
+          ~javascriptTextTransformGcsPath=${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/user-function/${{ env.JS_FILE_NAME }} \
+          ~inputFilePattern=${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/data/${{ env.INPUT_FILE_NAME }} \
+          ~outputTable=${{ env.BQ_TABEL_NAME }}
+          ~bigQueryLoadingTemporaryDirectory=${{ env.GCS_BUCKET_NAME }}/temp
