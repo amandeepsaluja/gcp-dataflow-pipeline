@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 02-google-template/01-batch-jobs/gcs-to-bigquery/01-text-file/01-via-github-actions
+        working-directory: ${{ env.GCS_FOLDER_LOCATION }}
 
     permissions:
       contents: read
