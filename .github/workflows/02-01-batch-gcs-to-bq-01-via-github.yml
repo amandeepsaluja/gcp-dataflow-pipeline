@@ -68,7 +68,7 @@ jobs:
       - name: Run Google Template Job
         run: |
           gcloud dataflow jobs run ${{ env.JOB_NAME }} \
-          --gcs-location  gs://dataflow-templates-${{ env.REGION }}/latest/GCS_Text_to_BigQuery \
+          --gcs-location  gs://dataflow-templates/latest/GCS_Text_to_BigQuery \
           --region ${{ env.REGION }} \
           --staging-location ${{ env.GCS_BUCKET_NAME }}/staging \
           --service-account-email ${{ secrets.SA_EMAIL }} \
