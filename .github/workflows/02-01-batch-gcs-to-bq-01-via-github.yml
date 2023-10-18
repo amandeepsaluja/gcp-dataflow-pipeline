@@ -1,11 +1,11 @@
 name: Google Provided Batch Job - GCS to BigQuery - via Github Actions
 
-on: workflow_dispatch # to be triggered manually
+# on: workflow_dispatch # to be triggered manually
 
-# on:
-#   push:
-#     branches:
-#       - master
+on:
+  push:
+    branches:
+      - master
 
 #
 
