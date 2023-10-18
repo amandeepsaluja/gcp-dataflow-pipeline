@@ -71,7 +71,6 @@ jobs:
           --gcs-location  gs://dataflow-templates-${{ env.REGION }}/latest/GCS_Text_to_BigQuery \
           --region ${{ env.REGION }} \
           --staging-location ${{ env.GCS_BUCKET_NAME }}/staging \
-          --temp-location ${{ env.GCS_BUCKET_NAME }}/temp \
           --service-account-email ${{ secrets.SA_EMAIL }} \
           --parameters ^~^javascriptTextTransformFunctionName=${{ env.JS_FUNCTION_NAME }} \
           ~JSONPath=${{ env.GCS_BUCKET_NAME }}/${{ env.GCS_FOLDER_LOCATION }}/config/${{ env.BQ_SCHEMA_FILE_NAME }} \
