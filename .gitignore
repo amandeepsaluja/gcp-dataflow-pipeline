@@ -163,3 +163,9 @@ cython_debug/
 src/config.yaml
 01-flex-template/src/config.yaml
 01-flex-template/config/config.yaml
+
+
+# terraform
+*.lock.hcl
+*.exe
+*.tfstate

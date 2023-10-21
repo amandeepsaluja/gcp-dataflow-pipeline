@@ -13,7 +13,7 @@ variable "region" {
 variable "gcs_bucket_name" {
   type        = string
   description = "Google Cloud Storage bucket name"
-  default     = "gcp-practice-project-aman-dataflow-bucket"
+  default     = "dataflow-bucket-gcp-practice-project-aman"
 }
 
 variable "gcs_folder_location" {
