@@ -39,3 +39,28 @@ variable "bq_schema_source" {
   description = "BigQuery schema file name"
   default     = "config/bq-schema.json"
 }
+
+variable "google_dataflow_job" {
+  type        = string
+  description = "Google Dataflow job name"
+  default     = "gcs-to-bq-via-terraform"
+}
+
+variable "dataflow_template_source" {
+  type        = string
+  description = "Google Dataflow template source"
+  default     = "gs://dataflow-templates/latest/GCS_Text_to_BigQuery"
+}
+
+variable "js_function_name" {
+  type        = string
+  description = "Javascript function name"
+  default     = "transform"
+}
+
+variable "bq_table_name" {
+  type        = string
+  description = "BigQuery table name"
+  default     = "gcp-practice-project-aman:raw_layer.dataflow_template_table"
+
+}
